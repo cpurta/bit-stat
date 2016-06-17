@@ -40,7 +40,6 @@ Go ahead and try out the program and get up to date stats on bit-coin
     "estimated_transaction_volume": "364,062.21653298 BTC",
     "total_output_volume": "2,768,727.92162865 BTC",
     "bitcoins_mined": "3,700 BTC",
-
     "hash_rate": "1,442,447,404.71 GH/s",
     "estimated_transaction_volume_usd": "270,672,976.75 USD"
 }
