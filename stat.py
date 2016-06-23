@@ -1,6 +1,7 @@
-import urllib2
+import urllib
 import json
 from bs4 import BeautifulSoup
+from flask import Flask
 
 statDims = {
 "Blocks Mined": "blocks_mined",
@@ -24,23 +25,31 @@ statDims = {
 
 json_data = {}
 
-contenturl = "https://blockchain.info/stats"
+app = Flask(__name__)
 
-content = urllib2.urlopen(contenturl).read()
+@app.route("/stats")
 
-soup = BeautifulSoup(content, "html.parser")
+def stats():
+	contenturl = "https://blockchain.info/stats"
 
-table_data = soup.find_all('td')
+	content = urllib.urlopen(contenturl).read()
 
-curDim = ""
-for row in table_data:
-    if row.string is not None and row.string in statDims.keys():
-        curDim = row.string
+	soup = BeautifulSoup(content, "html.parser")
 
-    elif curDim != "" and row.string is not None:
-        json_data[statDims[curDim]] = row.string
+	table_data = soup.find_all('td')
 
-    elif not row.string is None:
-        row.string
+	curDim = ""
+	for row in table_data:
+    		if row.string is not None and row.string in statDims.keys():
+        		curDim = row.string
 
-print json.dumps(json_data, indent=4)
+    		elif curDim != "" and row.string is not None:
+        		json_data[statDims[curDim]] = row.string
+
+    		elif not row.string is None:
+        		row.string
+
+	return json.dumps(json_data, indent=4)
+
+if __name__ == "__main__":
+	app.run()
